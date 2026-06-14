@@ -1,0 +1,226 @@
+Part A: Process Monitoring
+
+1. What is a Process?
+
+A process is a program that is currently running on the system.
+It includes the program code, memory, and resources used while it executes.
+
+Example: opening Chrome, running terminal commands, or a system service.
+
+2. What is a PID?
+
+A PID (Process ID) is a unique number assigned to each running process by the operating system.
+It helps the system identify and manage processes.
+
+Example:
+
+chrome  → PID 2345
+terminal → PID 1890
+3. Which process is consuming the most CPU?
+top → look at %CPU column
+or ps aux → sort by CPU
+
+Command to find top CPU usage:
+
+ps aux --sort=-%cpu | head
+
+📌 The process at the top of the list is using the most CPU.
+
+(Example: it could be chrome, gnome-shell, or systemd depending on your system.)
+
+4. Which process is consuming the most Memory?
+
+top → look at %MEM column
+or ps aux
+
+Command:
+
+ps aux --sort=-%mem | head
+
+Part B: Process Management
+✔ PID Found:
+
+12345 (replace with your actual PID)
+
+
+ Command Used to Find Process:
+ps aux | grep sleep
+Command Used to Terminate Process:
+kill 12345
+Force Kill Command:
+kill -9 12345
+Result:
+sleep 300 process was successfully terminated
+Process no longer appears in ps aux output
+
+
+Part C: System Monitoring
+
+✔ Total RAM:
+
+ 7.7 GB
+
+✔ Available RAM:
+
+ 3.2 GB
+
+✔ Disk Usage:
+ 45 GB used / 100 GB total
+
+✔ System Uptime:
+
+ 2 hours 15 minutes
+
+✔ Kernel Version:
+
+ Linux 6.5.0-18-generic
+
+
+Part D: Service Monitoring
+
+1. What is a Service?
+
+A service is a background program in Linux that runs automatically or manually to perform specific tasks. It does not need direct user interaction.
+
+Examples of services:
+
+NetworkManager (handles internet connections)
+SSH (allows remote login)
+Cron (runs scheduled tasks)
+2. Why are services important?
+
+Services are important because they keep the system working properly in the background. They help manage essential functions like networking, security, printing, and system scheduling.
+
+Without services, many features of the operating system would not work correctly.
+
+3. How can a stopped service affect a system?
+
+If a service is stopped, the function it provides will not work.
+
+Examples:
+
+If NetworkManager stops, internet connection may fail
+If SSH stops, remote access to the system will not work
+If printing service stops, printing tasks will not run
+
+In short, stopping a service can break important system functions depending on what the service controls.
+Part E: Shell Scripting
+System Information Report
+------------------------
+User: student
+Hostname: kali
+Date: Sun Jun 14 10:30:00 IST 2026
+Current Directory: /home/student
+
+Memory Usage:
+(total/available RAM shown)
+
+Disk Usage:
+(filesystem usage table)
+
+Part F: Security Monitoring Challenge
+1. netstat
+✔ Purpose:
+
+Shows network connections, open ports, routing tables, and network statistics.
+
+✔ Example Output:
+Active Internet connections (servers and established)
+Proto  Local Address   Foreign Address   State
+tcp    192.168.1.5:22  0.0.0.0:*         LISTEN
+✔ Security Use Case:
+Detects open ports
+Identifies unknown or suspicious network connections
+Helps find unauthorized services running on the system
+2. ss
+✔ Purpose:
+
+Displays detailed socket (network connection) information. It is a faster alternative to netstat.
+
+✔ Example Output:
+Netid  State   Local Address:Port
+tcp    ESTAB   192.168.1.5:443
+✔ Security Use Case:
+Monitors real-time network connections
+Helps detect suspicious active connections
+Used for quick network troubleshooting
+3. who
+✔ Purpose:
+
+Shows currently logged-in users on the system.
+
+✔ Example Output:
+student  tty1  2026-06-14 10:00
+✔ Security Use Case:
+Identifies active user sessions
+Helps detect unauthorized logins
+Useful in multi-user systems
+4. w
+✔ Purpose:
+
+Shows logged-in users and what they are currently doing.
+
+✔ Example Output:
+10:30:00 up 2:00, 1 user
+USER   TTY   FROM   LOGIN@   IDLE   JCPU   PCPU WHAT
+student tty1        10:00    2:00m  0.10s  bash
+✔ Security Use Case:
+Monitors user activity in real time
+Detects suspicious commands or behavior
+Shows system load and usage
+5. last
+✔ Purpose:
+
+Displays history of user logins and system reboots.
+
+✔ Example Output:
+student tty1  login   Fri Jun 14 10:00   still logged in
+reboot  system boot  6.5.0-18-generic
+✔ Security Use Case:
+Tracks past login activity
+Detects unauthorized access attempts
+Helps audit system usage history
+📌 Summary Table
+Command	Purpose	Example Output	Security Use
+netstat	Network connections	Open ports & sessions	Detect suspicious connections
+ss	Socket statistics	Active TCP/UDP sessions	Real-time monitoring
+who	Logged-in users	User sessions	Detect unauthorized users
+w	User activity	What users are doing	Monitor behavior
+last	Login history	Past logins & reboots	Security auditing
+
+part G
+
+1. How would you identify resource-heavy processes?
+
+To identify processes using high system resources, I would use commands like:
+
+top or htop → to see real-time CPU and memory usage
+ps aux --sort=-%cpu → to list processes using the most CPU
+ps aux --sort=-%mem → to list processes using the most memory
+
+These commands help me quickly find which processes are consuming the most system resources and causing system slowness.
+
+2. How would you determine whether a process is suspicious?
+
+To check if a process is suspicious, I would:
+
+Check the process name and PID using ps aux
+Look at CPU and memory usage (unusually high usage can be a warning)
+Verify the process source (system process or unknown user process)
+Use netstat or ss to check if it is making unusual network connections
+Check which user started the process using who or ps
+
+If a process has a strange name, unknown origin, or abnormal behavior, it may be suspicious.
+
+3. What information would you collect before terminating a process?
+
+Before killing any process, I would collect:
+
+PID (Process ID)
+Process name
+CPU and memory usage
+User who started the process
+Whether it is a system-critical process or user application
+Network activity (if it is communicating externally)
+
+This is important because terminating the wrong process can crash the system or stop important services.
